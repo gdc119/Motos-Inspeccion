@@ -30,7 +30,6 @@
       position: relative;
     }
     
-    /* ENCABEZADO SUPERIOR */
     .brand-header {
       text-align: center;
       margin-bottom: 15px;
@@ -50,7 +49,6 @@
       letter-spacing: 0.5px;
     }
     
-    /* BLOQUE DE INSTRUCCIONES DE CADA FOTO */
     .photo-instruction-box {
       background-color: #ffebee;
       border-left: 5px solid #d32f2f;
@@ -94,7 +92,6 @@
       display: block;
     }
 
-    /* PANTALLA DE PORTADA PRINCIPAL */
     .welcome-box {
       background: #ffffff;
       padding: 10px;
@@ -153,7 +150,6 @@
       width: 100%;
     }
     
-    /* ÁREA DE VISUALIZACIÓN */
     video, canvas, img.preview {
       width: 100%;
       height: 70vh;
@@ -203,20 +199,17 @@
 <body>
 
 <div class="container">
-  <!-- ENCABEZADO SUPERIOR (Oculto al inicio para mostrar solo la portada) -->
   <div id="brand-header" class="brand-header hidden">
     <p style="font-size: 0.9em; font-weight: bold; color: #003366; margin-bottom: 5px;">Bienvenidos a</p>
     <div class="brand-logo-text">SEGUROS CBA</div>
     <div class="brand-sub">Inspección Digital de Motovehículos</div>
   </div>
 
-  <!-- PORTADA INICIAL DE BIENVENIDA -->
   <div id="step-welcome" class="welcome-box">
-    <img src="./portada.png" alt="Portada Inspección" class="portada-img">
+    <img id="img-portada" src="./portada.png" alt="Portada Inspección" class="portada-img" onerror="this.onerror=null; this.src='./Portada app.png';">
     <button onclick="comenzarInspeccion()">Comenzar 🏍️</button>
   </div>
 
-  <!-- TOMA DE FOTOS -->
   <div id="step-camera" class="camera-container hidden">
     <div class="photo-instruction-box" style="width: 100%;">
       <div class="photo-instruction-info">
@@ -240,7 +233,6 @@
     </div>
   </div>
 
-  <!-- ENVIAR INSPECCIÓN -->
   <div id="step-send" class="hidden" style="text-align: center;">
     <h2 style="color: #28a745; margin-bottom: 10px;">¡Fotos completadas!</h2>
     <p style="margin-bottom: 20px; color: #666;">Haz clic en el botón para enviar la inspección.</p>
@@ -251,7 +243,6 @@
     </div>
   </div>
 
-  <!-- PANTALLA FINAL -->
   <div id="step-thanks" class="success-screen hidden">
     <svg viewBox="0 0 24 24">
       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
@@ -264,7 +255,6 @@
 <script>
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYdMMr1TVUACtd100dBLwpBeyB5igsuYg5EbtwQldwPLjN5ovZIu83zSgGQoYSAk5q/exec";
 
-  // Lista de fotografías ordenadas según requerimiento
   const fotosBase = [
     { id: 'tarjeta_verde', nombre: 'TARJETA VERDE', img: './verde.jpg', desc: 'Asegúrese de encuadrar según la imagen de referencia' },
     { id: 'frente', nombre: 'FOTO DE FRENTE', img: './frente.jpg', desc: 'Asegúrese de encuadrar según la imagen de referencia' },
