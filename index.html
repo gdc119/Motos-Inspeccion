@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inspección de Motovehículo | Seguros CBA</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background-color: #f4f6f8;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 10px;
+    }
+    .container {
+      width: 100%;
+      max-width: 500px;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      padding: 15px;
+      position: relative;
+    }
+    
+    /* ENCABEZADO SUPERIOR */
+    .brand-header {
+      text-align: center;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #e9ecef;
+    }
+    .brand-logo {
+      max-width: 200px;
+      height: auto;
+      margin: 0 auto 10px auto;
+      display: block;
+    }
+    .brand-logo-text {
+      font-size: 1.6em;
+      font-weight: 900;
+      color: #0066cc;
+      letter-spacing: 1px;
+    }
+    .brand-sub {
+      font-size: 0.85em;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    /* BLOQUE DE INSTRUCCIONES */
+    .photo-instruction-box {
+      background-color: #ffebee;
+      border-left: 5px solid #d32f2f;
+      padding: 10px 12px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .photo-instruction-info h3 {
+      color: #d32f2f;
+      font-size: 1.05em;
+      text-transform: uppercase;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+    .photo-instruction-info p {
+      color: #b71c1c;
+      font-size: 0.8em;
+      font-weight: 600;
+    }
+    .example-thumb-container {
+      width: 80px;
+      height: 60px;
+      border: 2px solid #d32f2f;
+      border-radius: 6px;
+      overflow: hidden;
+      background-color: #fff;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .example-thumb-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .welcome-box {
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    .welcome-box p {
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    /* INDICACIÓN DE CELULAR HORIZONTAL Y UBICACIÓN */
+    .horizontal-notice {
+      margin-top: 20px;
+      padding-top: 15px;
+      border-top: 1px dashed #ccc;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .phone-icon-horizontal {
+      width: 50px;
+      height: 30px;
+      border: 2.5px solid #0066cc;
+      border-radius: 5px;
+      position: relative;
+      background-color: #e6f0fa;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 4px;
+    }
+    .phone-icon-horizontal::before {
+      content: '';
+      width: 30px;
+      height: 18px;
+      border: 1.5px solid #0066cc;
+      border-radius: 2px;
+      position: absolute;
+      left: 4px;
+    }
+    .phone-icon-horizontal::after {
+      content: '';
+      width: 4px;
+      height: 4px;
+      background-color: #0066cc;
+      border-radius: 50%;
+    }
+    .horizontal-text {
+      font-size: 0.9em;
+      font-weight: 700;
+      color: #0066cc;
+      text-transform: uppercase;
+    }
+    .location-notice {
+      margin-top: 12px;
+      background-color: #fff3cd;
+      border: 1px solid #ffeeba;
+      color: #856404;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 0.85em;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+    button {
+      background-color: #0066cc;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 1em;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background-color: #0052a3;
+    }
+    button.btn-secondary {
+      background-color: #6c757d;
+    }
+    button.btn-secondary:hover {
+      background-color: #5a6268;
+    }
+    button.btn-success {
+      background-color: #28a745;
+      font-size: 1.1em;
+      padding: 15px;
+    }
+    button.btn-success:hover {
+      background-color: #218838;
+    }
+    .camera-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+    }
+    
+    /* ÁREA DE VISUALIZACIÓN */
+    video, canvas, img.preview {
+      width: 100%;
+      height: 70vh;
+      max-height: 520px;
+      border-radius: 8px;
+      background-color: #000;
+      object-fit: cover;
+    }
+    
+    .hidden {
+      display: none !important;
+    }
+    .success-screen {
+      text-align: center;
+      padding: 30px 10px;
+    }
+    .success-screen svg {
+      width: 80px;
+      height: 80px;
+      fill: #28a745;
+      margin-bottom: 20px;
+    }
+    .success-screen h2 {
+      color: #28a745;
+      font-size: 1.8em;
+      margin-bottom: 10px;
+    }
+    .success-screen p {
+      font-size: 1.2em;
+      color: #555;
+    }
+    .spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border-left-color: #0066cc;
+      animation: spin 1s linear infinite;
+      margin: 10px auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- LOGO Y ENCABEZADO -->
+  <div id="brand-header" class="brand-header">
+    <p style="font-size: 0.9em; font-weight: bold; color: #003366; margin-bottom: 5px;">Bienvenidos a</p>
+    <img src="./Portada%20app.png" alt="Seguros CBA" class="brand-logo" onerror="this.style.display='none'">
+    <div class="brand-logo-text">SEGUROS CBA</div>
+    <div class="brand-sub">Inspección Digital de Motovehículos</div>
+  </div>
+
+  <!-- PORTADA DE BIENVENIDA -->
+  <div id="step-welcome" class="welcome-box">
+    <p>A continuación realizaremos la toma de fotografías de la moto para el registro de la inspección.</p>
+    
+    <!-- INDICACIÓN DE CELULAR HORIZONTAL -->
+    <div class="horizontal-notice">
+      <div class="phone-icon-horizontal"></div>
+      <p class="horizontal-text">Tomar todas las fotos con el celular en forma horizontal</p>
+    </div>
+
+    <!-- AVISO DE UBICACIÓN Y MOVIMIENTO -->
+    <div class="location-notice" style="margin-bottom: 15px;">
+      ⚠️ Las fotos deben ser sacadas todas en un mismo lugar sin mover el vehículo.
+    </div>
+
+    <button onclick="comenzarInspeccion()">Iniciar Inspección 🏍️</button>
+  </div>
+
+  <!-- TOMA DE FOTOS -->
+  <div id="step-camera" class="camera-container hidden">
+    <div class="photo-instruction-box" style="width: 100%;">
+      <div class="photo-instruction-info">
+        <h3 id="photo-title">FOTO REQUERIDA</h3>
+        <p>Asegúrese de encuadrar según la imagen de referencia</p>
+      </div>
+      <div id="example-svg-container" class="example-thumb-container"></div>
+    </div>
+
+    <video id="video" autoplay playsinline muted></video>
+    <canvas id="canvas" class="hidden"></canvas>
+    <img id="preview-img" class="preview hidden" alt="Vista previa">
+
+    <div id="camera-controls" style="width: 100%;">
+      <button id="btn-capture" onclick="capturarFoto()">📷 Tomar Foto</button>
+      <button id="btn-reload-cam" class="btn-secondary hidden" style="margin-top: 8px;" onclick="iniciarCamara()">🔄 Activar Cámara</button>
+      <div id="retake-controls" class="btn-group hidden">
+        <button class="btn-secondary" onclick="repetirFoto()">🔄 Volver a tomar</button>
+        <button onclick="confirmarFoto()">Siguiente ➡️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ENVIAR INSPECCIÓN -->
+  <div id="step-send" class="hidden" style="text-align: center;">
+    <h2 style="color: #28a745; margin-bottom: 10px;">¡Fotos completadas!</h2>
+    <p style="margin-bottom: 20px; color: #666;">Haz clic en el botón para enviar la inspección.</p>
+    <button id="btn-submit" class="btn-success" onclick="enviarInspeccion()">📤 Enviar Inspección</button>
+    <div id="loading" class="hidden">
+      <div class="spinner"></div>
+      <p>Enviando información, por favor espere...</p>
+    </div>
+  </div>
+
+  <!-- PANTALLA FINAL -->
+  <div id="step-thanks" class="success-screen hidden">
+    <svg viewBox="0 0 24 24">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+    </svg>
+    <h2>Inspección finalizada</h2>
+    <p>¡Gracias por elegir <strong>Seguros CBA</strong>!</p>
+  </div>
+</div>
+
+<script>
+  // URL del mismo Google Apps Script (o el que utilices para guardar en Drive)
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYdMMr1TVUACtd100dBLwpBeyB5igsuYg5EbtwQldwPLjN5ovZIu83zSgGQoYSAk5q/exec";
+
+  // Lista de fotografías específicas para Moto (Comenzando por Tarjeta Verde)
+  const fotosBase = [
+    { id: 'tarjeta_verde', nombre: 'TARJETA VERDE', img: './verde.jpg' },
+    { id: 'frente', nombre: 'FOTO DE FRENTE', img: './frente.jpg' },
+    { id: 'atras', nombre: 'FOTO DE ATRÁS', img: './atras.jpg' },
+    { id: 'lat_derecho', nombre: 'LATERAL DERECHO', img: './lat_derecho.jpg' },
+    { id: 'lat_izquierdo', nombre: 'LATERAL IZQUIERDO', img: './lat_izquierdo.jpg' },
+    { id: 'tablero', nombre: 'KILOMETRAJE / TABLERO', img: './tablero.jpg' },
+    { id: 'ruedas', nombre: 'ESTADO DE CUBIERTAS', img: './ruedas.jpg' }
+  ];
+
+  let listaFotos = [...fotosBase];
+  let indiceFotoActual = 0;
+  let fotosCapturadas = {};
+  let streamCamara = null;
+  let fotoTempData = null;
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const dominio = urlParams.get('dominio') || 'No especificado';
+  const cliente = urlParams.get('cliente') || 'No especificado';
+
+  function comenzarInspeccion() {
+    document.getElementById('brand-header').classList.add('hidden');
+    document.getElementById('step-welcome').classList.add('hidden');
+    document.getElementById('step-camera').classList.remove('hidden');
+    iniciarCamara();
+    mostrarPasoFoto();
+  }
+
+  async function iniciarCamara() {
+    detenerCamara();
+    document.getElementById('btn-reload-cam').classList.add('hidden');
+    
+    try {
+      streamCamara = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: { ideal: "environment" }, width: { ideal: 1280 }, height: { ideal: 720 } },
+        audio: false
+      });
+      const videoElement = document.getElementById('video');
+      videoElement.srcObject = streamCamara;
+      await videoElement.play();
+    } catch (err) {
+      try {
+        streamCamara = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+        const videoElement = document.getElementById('video');
+        videoElement.srcObject = streamCamara;
+        await videoElement.play();
+      } catch (err2) {
+        alert("No se pudo iniciar la cámara automáticamente. Presione 'Activar Cámara'.");
+        document.getElementById('btn-reload-cam').classList.remove('hidden');
+      }
+    }
+  }
+
+  function mostrarPasoFoto() {
+    const fotoActual = listaFotos[indiceFotoActual];
+    document.getElementById('photo-title').innerText = fotoActual.nombre;
+    
+    const container = document.getElementById('example-svg-container');
+    container.innerHTML = '';
+
+    const imgObj = new Image();
+    imgObj.src = fotoActual.img;
+    imgObj.alt = fotoActual.nombre;
+
+    imgObj.onerror = function() {
+      container.style.display = 'none';
+    };
+    imgObj.onload = function() {
+      container.style.display = 'flex';
+    };
+
+    container.appendChild(imgObj);
+    
+    document.getElementById('video').classList.remove('hidden');
+    document.getElementById('preview-img').classList.add('hidden');
+    document.getElementById('btn-capture').classList.remove('hidden');
+    document.getElementById('retake-controls').classList.add('hidden');
+  }
+
+  function capturarFoto() {
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    canvas.width = video.videoWidth || 640;
+    canvas.height = video.videoHeight || 480;
+    
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    
+    fotoTempData = canvas.toDataURL('image/jpeg', 0.8);
+    
+    const preview = document.getElementById('preview-img');
+    preview.src = fotoTempData;
+    
+    video.classList.add('hidden');
+    preview.classList.remove('hidden');
+    document.getElementById('btn-capture').classList.add('hidden');
+    document.getElementById('retake-controls').classList.remove('hidden');
+  }
+
+  function repetirFoto() {
+    fotoTempData = null;
+    document.getElementById('video').classList.remove('hidden');
+    document.getElementById('preview-img').classList.add('hidden');
+    document.getElementById('btn-capture').classList.remove('hidden');
+    document.getElementById('retake-controls').classList.add('hidden');
+    if (!streamCamara || !streamCamara.active) {
+      iniciarCamara();
+    }
+  }
+
+  function confirmarFoto() {
+    const fotoActual = listaFotos[indiceFotoActual];
+    fotosCapturadas[fotoActual.id] = fotoTempData;
+
+    indiceFotoActual++;
+    if (indiceFotoActual < listaFotos.length) {
+      mostrarPasoFoto();
+    } else {
+      detenerCamara();
+      document.getElementById('step-camera').classList.add('hidden');
+      document.getElementById('step-send').classList.remove('hidden');
+    }
+  }
+
+  function detenerCamara() {
+    if (streamCamara) {
+      streamCamara.getTracks().forEach(track => track.stop());
+      streamCamara = null;
+    }
+  }
+
+  function enviarInspeccion() {
+    document.getElementById('btn-submit').classList.add('hidden');
+    document.getElementById('loading').classList.remove('hidden');
+
+    const payload = {
+      dominio: dominio,
+      cliente: cliente,
+      tipo_vehiculo: 'MOTO',
+      fotos: fotosCapturadas
+    };
+
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+    .then(() => {
+      document.getElementById('step-send').classList.add('hidden');
+      document.getElementById('brand-header').classList.remove('hidden');
+      document.getElementById('step-thanks').classList.remove('hidden');
+    })
+    .catch(err => {
+      alert("Error al enviar. Intente de nuevo.");
+      document.getElementById('btn-submit').classList.remove('hidden');
+      document.getElementById('loading').classList.add('hidden');
+    });
+  }
+</script>
+
+</body>
+</html>
