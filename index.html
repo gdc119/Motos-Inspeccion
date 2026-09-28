@@ -5,223 +5,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inspección de Motovehículo | Seguros CBA</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    body {
-      background-color: #f4f6f8;
-      color: #333;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      padding: 10px;
-    }
-    .container {
-      width: 100%;
-      max-width: 500px;
-      background: #ffffff;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-      padding: 15px;
-      position: relative;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background-color: #f4f6f8; color: #333; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 10px; }
+    .container { width: 100%; max-width: 500px; background: #ffffff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); padding: 15px; position: relative; }
     
-    /* ENCABEZADO Y LOGO */
-    .brand-header {
-      text-align: center;
-      margin-bottom: 15px;
-      padding-bottom: 10px;
-      border-bottom: 2px solid #e9ecef;
-    }
-    .main-logo {
-      width: 100%;
-      max-width: 280px;
-      height: auto;
-      display: block;
-      margin: 0 auto;
-    }
-    .brand-sub {
-      font-size: 0.9em;
-      color: #003366;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-top: 8px;
-      font-weight: 800;
-    }
+    .brand-header { text-align: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #e9ecef; }
+    .main-logo { width: 100%; max-width: 280px; height: auto; display: block; margin: 0 auto; }
+    .brand-sub { font-size: 0.9em; color: #003366; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 8px; font-weight: 800; }
     
-    .photo-instruction-box {
-      background-color: #ffebee;
-      border-left: 5px solid #d32f2f;
-      padding: 10px 12px;
-      border-radius: 6px;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-    .photo-instruction-info h3 {
-      color: #d32f2f;
-      font-size: 1.05em;
-      text-transform: uppercase;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      margin-bottom: 2px;
-    }
-    .photo-instruction-info p {
-      color: #b71c1c;
-      font-size: 0.8em;
-      font-weight: 600;
-    }
-    .example-thumb-container {
-      width: 80px;
-      height: 60px;
-      border: 2px solid #d32f2f;
-      border-radius: 6px;
-      overflow: hidden;
-      background-color: #fff;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .example-thumb-container img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
+    .photo-instruction-box { background-color: #ffebee; border-left: 5px solid #d32f2f; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .photo-instruction-info h3 { color: #d32f2f; font-size: 1.05em; text-transform: uppercase; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 2px; }
+    .photo-instruction-info p { color: #b71c1c; font-size: 0.8em; font-weight: 600; }
+    .example-thumb-container { width: 80px; height: 60px; border: 2px solid #d32f2f; border-radius: 6px; overflow: hidden; background-color: #fff; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+    .example-thumb-container img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-    .welcome-box {
-      background: #ffffff;
-      padding: 10px;
-      border-radius: 8px;
-      text-align: center;
-    }
+    .welcome-box { background: #ffffff; padding: 10px; border-radius: 8px; text-align: center; }
+    .input-group { margin: 15px 0 20px 0; text-align: left; }
+    .input-group label { display: block; font-size: 1em; font-weight: bold; color: #003366; margin-bottom: 8px; text-align: center; }
+    .input-group input { width: 100%; padding: 12px; font-size: 1.1em; border: 2px solid #0066cc; border-radius: 8px; text-transform: uppercase; text-align: center; font-weight: bold; letter-spacing: 2px; }
 
-    .input-group {
-      margin: 15px 0 20px 0;
-      text-align: left;
-    }
-    .input-group label {
-      display: block;
-      font-size: 1em;
-      font-weight: bold;
-      color: #003366;
-      margin-bottom: 8px;
-      text-align: center;
-    }
-    .input-group input {
-      width: 100%;
-      padding: 12px;
-      font-size: 1.1em;
-      border: 2px solid #0066cc;
-      border-radius: 8px;
-      text-transform: uppercase;
-      text-align: center;
-      font-weight: bold;
-      letter-spacing: 2px;
-    }
-
-    .btn-group {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-    }
-    button {
-      background-color: #0066cc;
-      color: white;
-      border: none;
-      padding: 14px 20px;
-      border-radius: 8px;
-      font-size: 1.1em;
-      font-weight: bold;
-      cursor: pointer;
-      width: 100%;
-      transition: background 0.2s;
-    }
-    button:hover {
-      background-color: #0052a3;
-    }
-    button.btn-secondary {
-      background-color: #6c757d;
-    }
-    button.btn-secondary:hover {
-      background-color: #5a6268;
-    }
-    button.btn-success {
-      background-color: #28a745;
-      font-size: 1.1em;
-      padding: 15px;
-    }
-    button.btn-success:hover {
-      background-color: #218838;
-    }
-    .camera-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      width: 100%;
-    }
+    .btn-group { display: flex; gap: 10px; justify-content: center; }
+    button { background-color: #0066cc; color: white; border: none; padding: 14px 20px; border-radius: 8px; font-size: 1.1em; font-weight: bold; cursor: pointer; width: 100%; transition: background 0.2s; }
+    button:hover { background-color: #0052a3; }
+    button.btn-secondary { background-color: #6c757d; }
+    button.btn-secondary:hover { background-color: #5a6268; }
+    button.btn-success { background-color: #28a745; font-size: 1.1em; padding: 15px; }
+    button.btn-success:hover { background-color: #218838; }
     
-    video, canvas, img.preview {
-      width: 100%;
-      height: 70vh;
-      max-height: 520px;
-      border-radius: 8px;
-      background-color: #000;
-      object-fit: cover;
-    }
+    .camera-container { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; }
+    video, canvas, img.preview { width: 100%; height: 70vh; max-height: 520px; border-radius: 8px; background-color: #000; object-fit: cover; }
     
-    .hidden {
-      display: none !important;
-    }
-    .success-screen {
-      text-align: center;
-      padding: 30px 10px;
-    }
-    .success-screen svg {
-      width: 80px;
-      height: 80px;
-      fill: #28a745;
-      margin-bottom: 20px;
-    }
-    .success-screen h2 {
-      color: #28a745;
-      font-size: 1.8em;
-      margin-bottom: 10px;
-    }
-    .success-screen p {
-      font-size: 1.2em;
-      color: #555;
-    }
-    .spinner {
-      border: 4px solid rgba(0, 0, 0, 0.1);
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      border-left-color: #0066cc;
-      animation: spin 1s linear infinite;
-      margin: 10px auto;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
+    .hidden { display: none !important; }
+    .success-screen { text-align: center; padding: 30px 10px; }
+    .success-screen svg { width: 80px; height: 80px; fill: #28a745; margin-bottom: 20px; }
+    .success-screen h2 { color: #28a745; font-size: 1.8em; margin-bottom: 10px; }
+    .success-screen p { font-size: 1.2em; color: #555; }
+    .spinner { border: 4px solid rgba(0, 0, 0, 0.1); width: 36px; height: 36px; border-radius: 50%; border-left-color: #0066cc; animation: spin 1s linear infinite; margin: 10px auto; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <!-- ENCABEZADO CON PORTADA / LOGO -->
+  <!-- ENCABEZADO CON PORTADA / LOGO CON DETECTOR DE EXTENSIÓN -->
   <div class="brand-header">
     <p style="font-size: 0.9em; font-weight: bold; color: #666; margin-bottom: 8px;">Bienvenidos a</p>
-    <img src="./portada.png" alt="Seguros CBA Logo" class="main-logo">
+    <img src="./portada.png" 
+         alt="Seguros CBA Logo" 
+         class="main-logo" 
+         onerror="if (this.src.endsWith('portada.png')) { this.src='./portada.PNG'; } else if (this.src.endsWith('portada.PNG')) { this.src='./portada.jpg'; }">
     <div class="brand-sub">Inspección Digital de Motovehículos</div>
   </div>
 
@@ -229,10 +61,15 @@
   <div id="step-welcome" class="welcome-box">
     <div class="input-group">
       <label for="input-dominio">Ingresa Patente de la Moto:</label>
-      <input type="text" id="input-dominio" placeholder="Ej: A123BCD / AA123BB" maxlength="10">
+      <input type="text" 
+             id="input-dominio" 
+             placeholder="A000AAA" 
+             maxlength="10" 
+             onfocus="this.placeholder=''" 
+             onblur="if(this.placeholder==='') this.placeholder='A000AAA';">
     </div>
 
-    <button onclick="comenzarInspeccion()">Comenzar Inspección 🏍️</button>
+    <button type="button" onclick="comenzarInspeccion()">Comenzar Inspección 🏍️</button>
   </div>
 
   <!-- PANTALLA DE CÁMARA -->
@@ -250,11 +87,11 @@
     <img id="preview-img" class="preview hidden" alt="Vista previa">
 
     <div id="camera-controls" style="width: 100%;">
-      <button id="btn-capture" onclick="capturarFoto()">📷 Tomar Foto</button>
-      <button id="btn-reload-cam" class="btn-secondary hidden" style="margin-top: 8px;" onclick="iniciarCamara()">🔄 Activar Cámara</button>
+      <button id="btn-capture" type="button" onclick="capturarFoto()">📷 Tomar Foto</button>
+      <button id="btn-reload-cam" type="button" class="btn-secondary hidden" style="margin-top: 8px;" onclick="iniciarCamara()">🔄 Activar Cámara</button>
       <div id="retake-controls" class="btn-group hidden">
-        <button class="btn-secondary" onclick="repetirFoto()">🔄 Volver a tomar</button>
-        <button onclick="confirmarFoto()">Siguiente ➡️</button>
+        <button type="button" class="btn-secondary" onclick="repetirFoto()">🔄 Volver a tomar</button>
+        <button type="button" onclick="confirmarFoto()">Siguiente ➡️</button>
       </div>
     </div>
   </div>
@@ -263,7 +100,7 @@
   <div id="step-send" class="hidden" style="text-align: center;">
     <h2 style="color: #28a745; margin-bottom: 10px;">¡Fotos completadas!</h2>
     <p style="margin-bottom: 20px; color: #666;">Haz clic en el botón para enviar la inspección.</p>
-    <button id="btn-submit" class="btn-success" onclick="enviarInspeccion()">📤 Enviar Inspección</button>
+    <button id="btn-submit" type="button" class="btn-success" onclick="enviarInspeccion()">📤 Enviar Inspección</button>
     <div id="loading" class="hidden">
       <div class="spinner"></div>
       <p>Enviando información, por favor espere...</p>
@@ -306,17 +143,21 @@
 
   document.addEventListener("DOMContentLoaded", () => {
     if (dominioUrl) {
-      document.getElementById('input-dominio').value = dominioUrl.toUpperCase();
+      const input = document.getElementById('input-dominio');
+      if (input) input.value = dominioUrl.toUpperCase();
     }
   });
 
   function comenzarInspeccion() {
-    const inputDom = document.getElementById('input-dominio').value.trim();
-    if (!inputDom) {
+    const inputDom = document.getElementById('input-dominio');
+    if (!inputDom) return;
+    
+    const val = inputDom.value.trim();
+    if (!val) {
       alert("Por favor, ingrese el dominio / patente del vehículo para continuar.");
       return;
     }
-    dominioFinal = inputDom.toUpperCase().replace(/\s+/g, '');
+    dominioFinal = val.toUpperCase().replace(/\s+/g, '');
 
     document.getElementById('step-welcome').classList.add('hidden');
     document.getElementById('step-camera').classList.remove('hidden');
