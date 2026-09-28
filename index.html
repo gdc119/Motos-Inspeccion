@@ -60,7 +60,7 @@
   <!-- PANTALLA INICIAL: INGRESO DE PATENTE -->
   <div id="step-welcome" class="welcome-box">
     <div class="input-group">
-      <label for="input-dominio">Ingresar Patente de la Moto:</label>
+      <label for="input-dominio">Ingresa Patente de la Moto:</label>
       <input type="text" 
              id="input-dominio" 
              placeholder="A000AAA" 
@@ -142,7 +142,8 @@
   const clienteUrl = urlParams.get('cliente') || 'No_especificado';
 
   document.addEventListener("DOMContentLoaded", () => {
-    if (dominioUrl) {
+    // Solo carga la patente si en la URL viene un valor real y no un texto de ejemplo
+    if (dominioUrl && !dominioUrl.toLowerCase().includes("ej:") && !dominioUrl.toLowerCase().includes("a123bcd")) {
       const input = document.getElementById('input-dominio');
       if (input) input.value = dominioUrl.toUpperCase();
     }
