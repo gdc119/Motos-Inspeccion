@@ -30,23 +30,27 @@
       position: relative;
     }
     
+    /* ENCABEZADO Y LOGO */
     .brand-header {
       text-align: center;
       margin-bottom: 15px;
       padding-bottom: 10px;
       border-bottom: 2px solid #e9ecef;
     }
-    .brand-logo-text {
-      font-size: 1.6em;
-      font-weight: 900;
-      color: #0066cc;
-      letter-spacing: 1px;
+    .main-logo {
+      width: 100%;
+      max-width: 280px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
     }
     .brand-sub {
-      font-size: 0.85em;
-      color: #666;
+      font-size: 0.9em;
+      color: #003366;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      margin-top: 8px;
+      font-weight: 800;
     }
     
     .photo-instruction-box {
@@ -99,25 +103,17 @@
       text-align: center;
     }
 
-    .portada-img {
-      width: 100%;
-      max-width: 100%;
-      height: auto;
-      border-radius: 8px;
-      margin: 0 auto 15px auto;
-      display: block;
-    }
-
     .input-group {
-      margin-bottom: 15px;
+      margin: 15px 0 20px 0;
       text-align: left;
     }
     .input-group label {
       display: block;
-      font-size: 0.9em;
+      font-size: 1em;
       font-weight: bold;
       color: #003366;
-      margin-bottom: 5px;
+      margin-bottom: 8px;
+      text-align: center;
     }
     .input-group input {
       width: 100%;
@@ -222,24 +218,24 @@
 <body>
 
 <div class="container">
-  <div id="brand-header" class="brand-header hidden">
-    <p style="font-size: 0.9em; font-weight: bold; color: #003366; margin-bottom: 5px;">Bienvenidos a</p>
-    <div class="brand-logo-text">SEGUROS CBA</div>
+  <!-- ENCABEZADO CON PORTADA / LOGO -->
+  <div class="brand-header">
+    <p style="font-size: 0.9em; font-weight: bold; color: #666; margin-bottom: 8px;">Bienvenidos a</p>
+    <img src="portada.png" alt="Seguros CBA Logo" class="main-logo">
     <div class="brand-sub">Inspección Digital de Motovehículos</div>
   </div>
 
-  <!-- PORTADA E INGRESO DE PATENTE -->
+  <!-- PANTALLA INICIAL: INGRESO DE PATENTE -->
   <div id="step-welcome" class="welcome-box">
-    <img id="img-portada" src="./portada.png" alt="Portada Inspección" class="portada-img" onerror="this.onerror=null; this.src='./Portada app.png';">
-    
     <div class="input-group">
-      <label for="input-dominio">Ingrese la Patente de la Moto:</label>
-      <input type="text"  placeholder="Ej: A123BCD" maxlength="10">
+      <label for="input-dominio">Ingresa Patente de la Moto:</label>
+      <input type="text" id="input-dominio" placeholder="Ej: A123BCD / AA123BB" maxlength="10">
     </div>
 
-    <button onclick="comenzarInspeccion()">Comenzar 🏍️</button>
+    <button onclick="comenzarInspeccion()">Comenzar Inspección 🏍️</button>
   </div>
 
+  <!-- PANTALLA DE CÁMARA -->
   <div id="step-camera" class="camera-container hidden">
     <div class="photo-instruction-box" style="width: 100%;">
       <div class="photo-instruction-info">
@@ -263,6 +259,7 @@
     </div>
   </div>
 
+  <!-- ENVIAR INSPECCIÓN -->
   <div id="step-send" class="hidden" style="text-align: center;">
     <h2 style="color: #28a745; margin-bottom: 10px;">¡Fotos completadas!</h2>
     <p style="margin-bottom: 20px; color: #666;">Haz clic en el botón para enviar la inspección.</p>
@@ -273,6 +270,7 @@
     </div>
   </div>
 
+  <!-- PANTALLA FINAL -->
   <div id="step-thanks" class="success-screen hidden">
     <svg viewBox="0 0 24 24">
       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
@@ -302,7 +300,6 @@
   let fotoTempData = null;
   let dominioFinal = "";
 
-  // Precargar dominio/cliente de la URL si existen
   const urlParams = new URLSearchParams(window.location.search);
   const dominioUrl = urlParams.get('dominio') || '';
   const clienteUrl = urlParams.get('cliente') || 'No_especificado';
@@ -388,7 +385,6 @@
     const ctx = canvas.getContext('2d');
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-    // Estampar fecha, hora y la patente sobre la imagen
     const ahora = new Date();
     const textoMarca = `${ahora.toLocaleDateString()} ${ahora.toLocaleTimeString()} | PATENTE: ${dominioFinal}`;
     
@@ -460,7 +456,6 @@
     })
     .then(() => {
       document.getElementById('step-send').classList.add('hidden');
-      document.getElementById('brand-header').classList.remove('hidden');
       document.getElementById('step-thanks').classList.remove('hidden');
     })
     .catch(err => {
