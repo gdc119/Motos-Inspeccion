@@ -108,6 +108,29 @@
       display: block;
     }
 
+    .input-group {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+    .input-group label {
+      display: block;
+      font-size: 0.9em;
+      font-weight: bold;
+      color: #003366;
+      margin-bottom: 5px;
+    }
+    .input-group input {
+      width: 100%;
+      padding: 12px;
+      font-size: 1.1em;
+      border: 2px solid #0066cc;
+      border-radius: 8px;
+      text-transform: uppercase;
+      text-align: center;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
     .btn-group {
       display: flex;
       gap: 10px;
@@ -205,8 +228,15 @@
     <div class="brand-sub">Inspección Digital de Motovehículos</div>
   </div>
 
+  <!-- PORTADA E INGRESO DE PATENTE -->
   <div id="step-welcome" class="welcome-box">
     <img id="img-portada" src="./portada.png" alt="Portada Inspección" class="portada-img" onerror="this.onerror=null; this.src='./Portada app.png';">
+    
+    <div class="input-group">
+      <label for="input-dominio">Ingrese la Patente de la Moto:</label>
+      <input type="text" id="input-dominio" placeholder="Ej: A123BCD" maxlength="10">
+    </div>
+
     <button onclick="comenzarInspeccion()">Comenzar 🏍️</button>
   </div>
 
@@ -253,7 +283,7 @@
 </div>
 
 <script>
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw7OEvdA7IpponhPRqcTis8DXNl-kHmeagp6v8vH35WNNTCZEPiAunE1HsISDcwlM0YAA/exec";
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYdMMr1TVUACtd100dBLwpBeyB5igsuYg5EbtwQldwPLjN5ovZIu83zSgGQoYSAk5q/exec";
 
   const fotosBase = [
     { id: 'tarjeta_verde', nombre: 'TARJETA VERDE', img: './verde.jpg', desc: 'Asegúrese de encuadrar según la imagen de referencia' },
@@ -270,12 +300,27 @@
   let fotosCapturadas = {};
   let streamCamara = null;
   let fotoTempData = null;
+  let dominioFinal = "";
 
+  // Precargar dominio/cliente de la URL si existen
   const urlParams = new URLSearchParams(window.location.search);
-  const dominio = urlParams.get('dominio') || 'No especificado';
-  const cliente = urlParams.get('cliente') || 'No especificado';
+  const dominioUrl = urlParams.get('dominio') || '';
+  const clienteUrl = urlParams.get('cliente') || 'No_especificado';
+
+  document.addEventListener("DOMContentLoaded", () => {
+    if (dominioUrl) {
+      document.getElementById('input-dominio').value = dominioUrl.toUpperCase();
+    }
+  });
 
   function comenzarInspeccion() {
+    const inputDom = document.getElementById('input-dominio').value.trim();
+    if (!inputDom) {
+      alert("Por favor, ingrese el dominio / patente del vehículo para continuar.");
+      return;
+    }
+    dominioFinal = inputDom.toUpperCase().replace(/\s+/g, '');
+
     document.getElementById('step-welcome').classList.add('hidden');
     document.getElementById('step-camera').classList.remove('hidden');
     iniciarCamara();
@@ -342,8 +387,18 @@
     
     const ctx = canvas.getContext('2d');
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    // Estampar fecha, hora y la patente sobre la imagen
+    const ahora = new Date();
+    const textoMarca = `${ahora.toLocaleDateString()} ${ahora.toLocaleTimeString()} | PATENTE: ${dominioFinal}`;
     
-    fotoTempData = canvas.toDataURL('image/jpeg', 0.8);
+    ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
+    ctx.fillRect(0, canvas.height - 35, canvas.width, 35);
+    ctx.font = "bold 16px Arial";
+    ctx.fillStyle = "#ffffff";
+    ctx.fillText(textoMarca, 15, canvas.height - 12);
+    
+    fotoTempData = canvas.toDataURL('image/jpeg', 0.85);
     
     const preview = document.getElementById('preview-img');
     preview.src = fotoTempData;
@@ -391,8 +446,8 @@
     document.getElementById('loading').classList.remove('hidden');
 
     const payload = {
-      dominio: dominio,
-      cliente: cliente,
+      dominio: dominioFinal,
+      cliente: clienteUrl,
       tipo_vehiculo: 'MOTO',
       fotos: fotosCapturadas
     };
